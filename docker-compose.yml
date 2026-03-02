@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: sar-db
+    environment:
+      POSTGRES_DB: sar_assistant
+      POSTGRES_USER: saruser
+      POSTGRES_PASSWORD: sarpass123
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U saruser -d sar_assistant"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  transaction-service:
+    build: ./transaction-service
+    container_name: sar-transaction-service
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/sar_assistant
+      SPRING_DATASOURCE_USERNAME: saruser
+      SPRING_DATASOURCE_PASSWORD: sarpass123
+    depends_on:
+      db:
+        condition: service_healthy
+
+  sar-engine:
+    build: ./sar-engine
+    container_name: sar-engine
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://saruser:sarpass123@db:5432/sar_assistant
+      LLM_PROVIDER: ${LLM_PROVIDER:-anthropic}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  dashboard:
+    build: ./dashboard
+    container_name: sar-dashboard
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_TRANSACTION_API: http://localhost:8080
+      REACT_APP_SAR_ENGINE_API: http://localhost:8000
+    depends_on:
+      - transaction-service
+      - sar-engine
+
+volumes:
+  pgdata:
