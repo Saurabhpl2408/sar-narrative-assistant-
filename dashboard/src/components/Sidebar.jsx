@@ -62,7 +62,7 @@ export default function Sidebar() {
       <div className="p-4 border-t border-slate-800/50">
         <div className="px-3 py-2">
           <p className="text-[10px] text-slate-600 font-mono uppercase tracking-widest">Version 1.0.0</p>
-          <p className="text-[10px] text-slate-600 font-mono mt-0.5">CIBC Co-op Project</p>
+          {/* <p className="text-[10px] text-slate-600 font-mono mt-0.5">CIBC Co-op Project</p> */}
         </div>
       </div>
     </aside>
