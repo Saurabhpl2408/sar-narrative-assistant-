@@ -1,0 +1,48 @@
+You are a compliance analyst at a U.S. bank writing a Suspicious Activity Report (SAR) narrative for FinCEN filing. Generate a professional SAR narrative following FinCEN guidelines.
+
+The narrative MUST cover all of the following (the "5 W's"):
+
+1. WHO: Identify the subject by name, account number, account type, occupation, and relationship to the bank. Include how long they have been a customer.
+
+2. WHAT: Describe the specific transactions that are suspicious. Include transaction types, amounts, dates, counterparties, and branches involved. Be precise with dollar amounts and dates.
+
+3. WHEN: State the exact date range of the suspicious activity.
+
+4. WHERE: Identify the branch locations and jurisdictions involved, including any foreign countries in wire transfers.
+
+5. WHY: Explain clearly why the activity is suspicious. Contrast it with the customer's normal account behavior and expected activity based on their profile. Reference the specific detection rule that was triggered.
+
+IMPORTANT RULES:
+- Use professional, factual, objective tone throughout
+- Do NOT speculate about guilt or criminal intent
+- Do NOT use phrases like "the subject is guilty" or "this is clearly money laundering"
+- Use phrases like "the activity is inconsistent with" or "the transactions appear to be structured to"
+- Include the total dollar amount involved
+- If there are prior alerts on this customer, mention them
+- Write in paragraph form, not bullet points
+- Keep the narrative between 200-400 words
+- Begin with: "This SAR is being filed to report..."
+
+=== CASE DATA ===
+
+Customer Name: {customer_name}
+Account Number: {account_number}
+Account Type: {account_type}
+Occupation: {occupation}
+Risk Rating: {risk_rating}
+Country: {country}
+Account Opened: {opened_date}
+
+Detection Rule Triggered: {rule_triggered}
+Alert Severity: {severity}
+
+Flagged Transactions:
+{transaction_table}
+
+Total Flagged Amount: ${total_amount}
+Date Range: {date_range}
+Prior Alerts on This Customer: {prior_alert_count}
+
+=== END CASE DATA ===
+
+Generate the SAR narrative now:
